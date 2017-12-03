@@ -22,7 +22,7 @@
 
 require './board'
 
-board = Board.new(1024)
+board = Board.new(289326)
 board.generate_board
 
 #board.print_board
