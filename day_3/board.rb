@@ -1,5 +1,5 @@
 class Board
-  attr_reader :board, :starting_row, :starting_column, :finishing_column, :finishing_row
+  attr_reader :board, :starting_row, :starting_column, :finishing_column, :finishing_row, :finishing_num
 
   def initialize(size)
     @max_num = size
@@ -41,6 +41,24 @@ class Board
     @finishing_column = @current_column
   end
 
+  def generate_board_2
+    current_num = 0
+
+    for i in 1..@max_num
+      num = calculate_sum
+      @board[@current_row][@current_column] = num
+
+      if num > @max_num                                # don't increment row & col if we're at the end
+        current_num = num
+        break
+      else
+        move_square
+      end
+    end
+
+    @finishing_num = current_num
+  end
+
   def print_board
     board.each do |l|
       puts l.join(' ')
@@ -78,6 +96,20 @@ class Board
     else
       puts 'fail'
     end
+  end
+
+  def calculate_sum
+    left_num = @board[@current_row][@current_column - 1]
+    right_num = @board[@current_row][@current_column + 1]
+    up_num = @board[@current_row - 1][@current_column]
+    down_num = @board[@current_row + 1][@current_column]
+    diagnol_up_right = @board[@current_row - 1][@current_column + 1]
+    diagnol_up_left = @board[@current_row - 1][@current_column - 1]
+    diagnol_down_left = @board[@current_row + 1][@current_column - 1]
+    diagnol_down_right = @board[@current_row + 1][@current_column + 1]
+
+    sum = left_num + right_num + up_num + down_num + diagnol_up_right + diagnol_up_left + diagnol_down_left + diagnol_down_right
+    return sum
   end
 
   def move_up
