@@ -48,7 +48,7 @@ class Board
       num = calculate_sum
       @board[@current_row][@current_column] = num
 
-      if num > @max_num                                # don't increment row & col if we're at the end
+      if num > @max_num                                # if current sum is greater than input
         current_num = num
         break
       else
