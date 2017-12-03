@@ -30,14 +30,14 @@ class Board
     for i in 2..@max_num
       @board[@current_row][@current_column] = i
 
-      if i == @max_num
+      if i == @max_num                                # don't increment row & col if we're at the end
         break
       else
         move_square
       end
     end
 
-    @finishing_row = @current_row
+    @finishing_row = @current_row                     # save finishing row and col
     @finishing_column = @current_column
   end
 
