@@ -32,8 +32,8 @@ end
 def check_anagram(line)
   line.each_with_index do |i, index1|
     line.each_with_index do |j, index2|
-      word1 = i.split('')                         # break up word1 input char array
-      word2 = j.split('')                         # break up word2 input char array
+      word1 = i.split('')                         # break up word1 into char array
+      word2 = j.split('')                         # break up word2 into char array
 
       if index1 != index2                         # if the indicies aren't the same
         return false if word1.sort == word2.sort  # if the char arrays when sorted are the same, return false
