@@ -26,8 +26,8 @@
 # My result: 396086.
 
 lines = File.open(File.dirname(__FILE__) + '/input.txt').read
-offsets = lines.split("\n")
-offsets = offsets.map(&:to_i)
+offsets = lines.split("\n")         # break up lines into an array of offsets (as strings)
+offsets = offsets.map(&:to_i)       # convert numbers in arrays to integers
 
 number_of_steps = 0
 
@@ -35,7 +35,6 @@ index = 0
 while offsets[index] != nil         # while not out of bounds
   current_offset = offsets[index]   # save current number (the offset)
   offsets[index] += 1               # increment number at current index
-
 
   index = current_offset + index    # jump to next index based on offset
   number_of_steps += 1              # increment step counter
