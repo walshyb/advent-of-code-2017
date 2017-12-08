@@ -4,10 +4,9 @@ banks = banks.map(&:to_i)                   # convert string array to int array
 
 
 number_of_redistributions = 0
-states = []                                 # create array to store states
-states.push banks.dup                       # store initial state
+states = {}                                 # create hash to state occurrences 
 
-# for the number of banks
+# run forever, until we find a cycle that was previously produced
 while true
   starting_index = banks.find_index(banks.max)  # get index of max bank
   blocks_to_distribute = num_of_blocks = banks[starting_index]
@@ -22,12 +21,33 @@ while true
     index += 1                              # go to next index
   end
 
-  number_of_redistributions += 1            # increment number of redistributions
-  if states.include? banks                  # if this state was already reached
-    break                                   # break loop
-  else
-    states.push banks.dup                   # save current state
-  end
-end
+  banks_key = banks.to_s                    # convert array to string
+                                            # this be used as a key in a hash
 
-puts number_of_redistributions
+  if states[banks_key]                      # if key already exists (if bank was also created)
+
+    if states[banks_key][:occurrences] == 2 # break there around 2 occurrences
+      puts states[banks_key][:index]        # display result
+      break
+    end
+
+    # update number of occurrences and 
+    # subtract current number of redistributions with the last
+    # redistribution number (index) to calculate how many
+    # redistributions occurred since the last match
+    states[banks_key] = {
+      index: number_of_redistributions - states[banks_key][:index],
+      occurrences: states[banks_key][:occurrences] + 1
+    }
+
+  else
+    # use the stringified array as the key
+    # with the value as the redistribution number it was found at
+    states[banks_key] = {
+      index: number_of_redistributions,
+      occurrences: 1
+    }
+  end
+
+  number_of_redistributions += 1            # increment number of redistributions
+end
