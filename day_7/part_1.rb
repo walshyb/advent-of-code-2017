@@ -25,7 +25,7 @@ def create_towers
       end
     end
 
-    # Track each program's weight and value
+    # Track each program's weight and sub towers
     @towers[program] = {weight: weight, sub_towers: sub_towers}
   end
 end
