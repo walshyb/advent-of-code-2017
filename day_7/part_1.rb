@@ -1,51 +1,44 @@
-#pbga (66)
-#xhth (57)
-#ebii (61)
-#havc (66)
-#ktlj (57)
-#fwft (72) -> ktlj, cntj, xhth
-#qoyq (66)
-#padx (45) -> pbga, havc, qoyq
-#tknk (41) -> ugml, padx, fwft
-#jptl (61)
-#ugml (68) -> gyxo, ebii, jptl
-#gyxo (61)
-#cntj (57)
+@input  = File.open(File.dirname(__FILE__) + '/input.txt').read
 
+@towers = {}
+@all_programs = []
+@all_sub_towers = []
 
-# The tree approach:
+def create_towers
+  @input.each_line do |line|
+    weight = line.match(/(\((.*)\))/)[2]
+    program = line.split(' ').first
 
-class Tree
-  attr_accessor :root
+    # If current program has sub towers
+    if line.include? '>'
+      sub_towers = line.split('> ').last.split(', ')
+    end
 
-  # go through input and find node that isn't a 
-  # child of any other
-  def find_root
+    # Add progarm to list of programs
+    @all_programs << program
+
+    # If current program has sub towers,
+    # add each one to the list of all sub towers.
+    if sub_towers
+      sub_towers.each do |s|
+        @all_sub_towers << s.gsub("\n", '')
+      end
+    end
+
+    # Track each program's weight and value
+    @towers[program] = {weight: weight, sub_towers: sub_towers}
   end
 end
 
-class Node
-  attr_accessor :value, :weight
-end
-
-
-
-# The find root approach:
-input  = File.open(File.dirname(__FILE__) + '/input.txt').read
-@programs = []
-@sub_programs = []
-
-input.each_line do |line|
-end
-
-
-def find_programs
-end
-
-def find_sub_programs
-end
-
-# Go through programs and sub_programs arrays and find 
-# node that isn't 
+# Find root of tree.
+# The root of the tree is a program (aka a node)
+# that isn't in another program's sub tower.
 def find_root
+  # Take the difference of the sets to find the 
+  # program that isn't a sub tower of any other.
+  root = @all_programs - @all_sub_towers
+  return root
 end
+
+create_towers
+puts find_root
